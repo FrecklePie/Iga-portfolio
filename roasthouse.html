@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoastHouse Client Panel · Iga Dróżdż</title>
+<style>
+  :root {
+    --cream: #F7F3EE;
+    --cream-dark: #EDE7DC;
+    --brown: #2C1A0E;
+    --brown-mid: #5C3D22;
+    --brown-light: #8B6340;
+    --gold: #C8922A;
+    --gold-light: #F0D9A8;
+    --border: rgba(44,26,14,0.12);
+    --border-mid: rgba(44,26,14,0.2);
+    --text-muted: #7A6352;
+    --green-bg: #EAF2E8;
+    --green-text: #2D6A1F;
+    --amber-bg: #FDF3DC;
+    --amber-text: #7A5200;
+    --purple-bg: #F0EDFF;
+    --purple-border: #C5BDFF;
+    --purple-text: #3D2FA0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--cream);
+    color: var(--brown);
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  a { color: var(--brown); }
+
+  /* NAV */
+  nav {
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-back {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .nav-back:hover { color: var(--brown); }
+  .nav-name {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  /* HERO */
+  .hero {
+    max-width: 720px;
+    margin: 4rem auto 3rem;
+    padding: 0 2rem;
+  }
+  .hero-eyebrow {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: var(--cream-dark);
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border-mid);
+    font-size: 11px;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 0.06em;
+    color: var(--brown-mid);
+  }
+  .tag.gold { background: var(--gold-light); border-color: var(--gold); color: var(--brown); }
+  h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    color: var(--brown);
+  }
+  h1 em { font-style: italic; color: var(--brown-mid); }
+  .hero-lead {
+    font-size: 17px;
+    color: var(--brown-mid);
+    line-height: 1.7;
+    max-width: 580px;
+  }
+
+  /* NDA NOTE */
+  .nda-note {
+    max-width: 720px;
+    margin: 0 auto 2.5rem;
+    padding: 0 2rem;
+  }
+  .nda-box {
+    background: var(--purple-bg);
+    border: 0.5px solid var(--purple-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--purple-text);
+    line-height: 1.6;
+  }
+
+  /* PROBLEM/CONTEXT */
+  .section {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+  }
+  h2 {
+    font-size: 13px;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .prose { font-size: 16px; color: var(--brown-mid); line-height: 1.8; }
+  .prose strong { color: var(--brown); font-weight: 600; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .info-card {
+    background: white;
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+  }
+  .info-card-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .info-card-val {
+    font-size: 14px;
+    color: var(--brown);
+    line-height: 1.6;
+  }
+
+  /* DIVIDER */
+  .divider {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+    border: none;
+    border-top: 0.5px solid var(--border);
+  }
+
+  /* PROTOTYPE LABEL */
+  .proto-label {
+    max-width: 720px;
+    margin: 0 auto 1rem;
+    padding: 0 2rem;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brown);
+    letter-spacing: 0.02em;
+  }
+  .proto-label span {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  /* PROTOTYPE SHELL */
+  .proto-wrap {
+    max-width: 900px;
+    margin: 0 auto 3.5rem;
+    padding: 0 2rem;
+  }
+  .proto-shell {
+    background: white;
+    border: 0.5px solid var(--border-mid);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    min-height: 560px;
+  }
+
+  /* SIDEBAR */
+  .rh-sidebar {
+    width: 196px;
+    flex-shrink: 0;
+    background: #FAF6F1;
+    border-right: 0.5px solid var(--border);
+    padding: 1.25rem 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .rh-logo {
+    padding: 0 1.25rem 1.25rem;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .rh-logo-icon { font-size: 20px; margin-bottom: 2px; }
+  .rh-logo-name {
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--brown);
+    letter-spacing: 0.02em;
+  }
+  .rh-logo-sub {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .rh-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 1.25rem;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .rh-nav-item:hover { background: white; color: var(--brown); }
+  .rh-nav-item.active {
+    background: white;
+    color: var(--brown);
+    border-left-color: var(--gold);
+    font-weight: 500;
+  }
+  .rh-nav-icon { font-size: 15px; }
+  .rh-lang {
+    margin-top: auto;
+    padding: 1rem 1.25rem 0;
+    border-top: 0.5px solid var(--border);
+  }
+  .rh-lang-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .rh-lang-btns { display: flex; gap: 6px; }
+  .rh-lang-btn {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    padding: 3px 9px;
+    border: 0.5px solid var(--border-mid);
+    border-radius: 20px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .rh-lang-btn.active {
+    background: var(--gold-light);
+    color: var(--brown);
+    border-color: var(--gold);
+  }
+
+  /* MAIN PANEL */
+  .rh-main { flex: 1; overflow-y: auto; padding: 1.5rem; }
+  .rh-section { display: none; }
+  .rh-section.visible { display: block; }
+  .rh-greeting {
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--brown);
+    margin-bottom: 3px;
+  }
+  .rh-sub {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  /* ALERT */
+  .rh-alert {
+    background: var(--amber-bg);
+    border: 0.5px solid #E8C76A;
+    border-radius: 8px;
+    padding: 9px 13px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    color: var(--amber-text);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* METRICS */
+  .rh-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+  .rh-metric {
+    background: #FAF6F1;
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.875rem 1rem;
+  }
+  .rh-metric-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+  .rh-metric-val {
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    color: var(--brown);
+    font-weight: 400;
+  }
+  .rh-metric-note {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* CARDS */
+  .rh-card {
+    background: white;
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .rh-card-title {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--brown);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rh-card-title .ct-sub {
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ROWS */
+  .rh-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+  }
+  .rh-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .rh-row:first-child { padding-top: 0; }
+
+  /* BADGES */
+  .badge {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    padding: 2px 9px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+  .badge.ok { background: var(--green-bg); color: var(--green-text); }
+  .badge.pending { background: var(--amber-bg); color: var(--amber-text); }
+
+  /* BUTTONS */
+  .btn {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    padding: 6px 14px;
+    border: 0.5px solid var(--border-mid);
+    border-radius: 20px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--brown-mid);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .btn:hover { background: #FAF6F1; }
+  .btn.primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: white;
+  }
+  .btn.primary:hover { background: #A87520; border-color: #A87520; }
+  .btn.sm { font-size: 11px; padding: 3px 10px; }
+
+  /* POINTS BAR */
+  .points-bar-wrap {
+    background: var(--cream-dark);
+    border-radius: 20px;
+    height: 8px;
+    margin: 8px 0 4px;
+    overflow: hidden;
+  }
+  .points-bar {
+    background: var(--gold);
+    height: 100%;
+    border-radius: 20px;
+    width: 62%;
+  }
+  .points-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* QUIZ */
+  .quiz-step { display: none; }
+  .quiz-step.active { display: block; }
+  .quiz-q {
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+    color: var(--brown);
+    margin-bottom: 0.875rem;
+    line-height: 1.5;
+  }
+  .quiz-opts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .quiz-opt {
+    padding: 10px 13px;
+    border: 0.5px solid var(--border-mid);
+    border-radius: 8px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--brown-mid);
+    background: #FAF6F1;
+    text-align: left;
+    line-height: 1.4;
+  }
+  .quiz-opt:hover, .quiz-opt.selected {
+    background: var(--gold-light);
+    border-color: var(--gold);
+    color: var(--brown);
+  }
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .quiz-prog {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .result-card {
+    background: var(--gold-light);
+    border: 0.5px solid var(--gold);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  .result-title {
+    font-family: 'Georgia', serif;
+    font-size: 17px;
+    color: var(--brown);
+    margin-bottom: 6px;
+  }
+  .result-desc {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--brown-mid);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  /* MATERIALS */
+  .mat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .mat-row:last-child { border-bottom: none; }
+  .mat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--gold-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .mat-name {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--brown);
+    flex: 1;
+  }
+  .mat-type {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  /* REFLECTION SECTION */
+  .reflection {
+    max-width: 720px;
+    margin: 0 auto 4rem;
+    padding: 0 2rem;
+  }
+  .reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .reflection-item {
+    border-top: 1.5px solid var(--border-mid);
+    padding-top: 0.875rem;
+  }
+  .reflection-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .reflection-text {
+    font-size: 14px;
+    color: var(--brown-mid);
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-name {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .footer-back {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .footer-back:hover { color: var(--brown); }
+
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .reflection-grid { grid-template-columns: 1fr; }
+    .rh-metrics { grid-template-columns: 1fr 1fr; }
+    .proto-shell { flex-direction: column; }
+    .rh-sidebar { width: 100%; border-right: none; border-bottom: 0.5px solid var(--border); }
+    .rh-lang { margin-top: 0.5rem; }
+    .rh-nav-item { border-left: none; border-bottom: 2px solid transparent; }
+    .rh-nav-item.active { border-left: none; border-bottom-color: var(--gold); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+  <span class="nav-name">Iga Dróżdż</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">
+    <span class="tag gold">B2B Product Design</span>
+    <span class="tag">Client Portal</span>
+    <span class="tag">Dashboard</span>
+    <span class="tag">Interaktywny prototyp</span>
+  </div>
+  <h1>B2B Client Panel —<br><em>RoastHouse</em></h1>
+  <p class="hero-lead">Zaprojektowałam interaktywny panel klienta dla rzemieślniczej palarni kawy — obsługujący trzy rynki (PL/CZ/SK), z historią zamówień, programem lojalnościowym, quizem doboru blendów i materiałami dla lokali.</p>
+</div>
+
+<div class="nda-note">
+  <div class="nda-box">
+    <strong>Kontekst NDA:</strong> Projekt oparty na realnym kliencie z segmentu premium FMCG / specialty coffee. Dane zanonimizowane, nazwa zmieniona. Prototyp demonstruje myślenie produktowe i projektowanie pod użytkownika B2B — nie dane produkcyjne.
+  </div>
+</div>
+
+<div class="section">
+  <h2>Problem</h2>
+  <p class="prose">Klienci B2B palarni (kawiarnie, biura, sklepy delikatesowe) operowali przez maile i telefon — brak widoczności zamówień, punktów, dostępnych materiałów. <strong>Nikt nie wiedział kiedy skończy się zapas. Nikt nie pamiętał co zamawiał 2 miesiące temu.</strong> Personel nie miał jak nauczyć się sprzedawać kawę gościom.</p>
+  <div class="two-col">
+    <div class="info-card">
+      <div class="info-card-label">Klient</div>
+      <div class="info-card-val">Rzemieślnicza palarnia kawy specialty, segment premium, rynki PL / CZ / SK</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Użytkownicy panelu</div>
+      <div class="info-card-val">Właściciele kawiarni, menedżerowie biur, kupcy w sklepach delikatesowych</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Mój zakres</div>
+      <div class="info-card-val">Product discovery, architektura funkcji, UX, interaktywny prototyp</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Kluczowy insight</div>
+      <div class="info-card-val">Klient B2B nie potrzebuje tylko zamówień — potrzebuje narzędzia które pomaga mu sprzedawać dalej</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="proto-label">Interaktywny prototyp panelu <span>— klikaj zakładki, wypełnij quiz, sprawdź materiały</span></div>
+
+<div class="proto-wrap">
+  <div class="proto-shell">
+
+    <!-- SIDEBAR -->
+    <div class="rh-sidebar">
+      <div class="rh-logo">
+        <div class="rh-logo-icon">☕</div>
+        <div class="rh-logo-name">RoastHouse</div>
+        <div class="rh-logo-sub">Panel klienta B2B</div>
+      </div>
+      <div class="rh-nav-item active" onclick="switchTab('dashboard',this)"><span class="rh-nav-icon">⊞</span> Przegląd</div>
+      <div class="rh-nav-item" onclick="switchTab('orders',this)"><span class="rh-nav-icon">◫</span> Zamówienia</div>
+      <div class="rh-nav-item" onclick="switchTab('loyalty',this)"><span class="rh-nav-icon">◈</span> Punkty</div>
+      <div class="rh-nav-item" onclick="switchTab('quiz',this)"><span class="rh-nav-icon">◉</span> Doradca blendów</div>
+      <div class="rh-nav-item" onclick="switchTab('materials',this)"><span class="rh-nav-icon">↓</span> Materiały</div>
+      <div class="rh-lang">
+        <div class="rh-lang-label">Rynek</div>
+        <div class="rh-lang-btns">
+          <button class="rh-lang-btn active" onclick="setLang(this)">PL</button>
+          <button class="rh-lang-btn" onclick="setLang(this)">CZ</button>
+          <button class="rh-lang-btn" onclick="setLang(this)">SK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="rh-main">
+
+      <!-- DASHBOARD -->
+      <div id="tab-dashboard" class="rh-section visible">
+        <div class="rh-greeting">Dzień dobry, Kawiarnia Volta ☕</div>
+        <div class="rh-sub">Ostatnia dostawa: 2 czerwca 2026</div>
+        <div class="rh-alert">⚑ Szacowany koniec zapasów: ~18 czerwca. Czas zamówić kolejną partię.</div>
+        <div class="rh-metrics">
+          <div class="rh-metric">
+            <div class="rh-metric-label">Zamówienia Q2</div>
+            <div class="rh-metric-val">7</div>
+            <div class="rh-metric-note">+2 vs Q1</div>
+          </div>
+          <div class="rh-metric">
+            <div class="rh-metric-label">Wydano Q2</div>
+            <div class="rh-metric-val">2 840 zł</div>
+            <div class="rh-metric-note">zaoszczędzono 180 zł</div>
+          </div>
+          <div class="rh-metric">
+            <div class="rh-metric-label">Punkty lojalne</div>
+            <div class="rh-metric-val">620</div>
+            <div class="rh-metric-note">do rabatu 10%: 380 pkt</div>
+          </div>
+        </div>
+        <div class="rh-card">
+          <div class="rh-card-title">Ostatnie zamówienie <span class="ct-sub">02.06.2026</span></div>
+          <div class="rh-row">
+            <div style="flex:1;color:var(--brown)">Espresso Blend Ciemny, 5kg</div>
+            <div style="color:var(--text-muted);width:28px;text-align:center">×2</div>
+            <div style="font-weight:500;width:64px;text-align:right;color:var(--brown)">420 zł</div>
+            <span class="badge ok">Dostarczone</span>
+          </div>
+          <div class="rh-row">
+            <div style="flex:1;color:var(--brown)">Ethiopia Yirgacheffe, 2kg</div>
+            <div style="color:var(--text-muted);width:28px;text-align:center">×1</div>
+            <div style="font-weight:500;width:64px;text-align:right;color:var(--brown)">290 zł</div>
+            <span class="badge ok">Dostarczone</span>
+          </div>
+          <div style="margin-top:12px;display:flex;justify-content:flex-end">
+            <button class="btn primary" onclick="switchTab('orders', document.querySelectorAll('.rh-nav-item')[1])">Ponów zamówienie →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div id="tab-orders" class="rh-section">
+        <div class="rh-greeting">Historia zamówień</div>
+        <div class="rh-sub">Rynek: PL · wszystkie statusy</div>
+        <div class="rh-card">
+          <div class="rh-row" style="font-size:11px;color:var(--text-muted);font-family:'Helvetica Neue',sans-serif;letter-spacing:0.06em;text-transform:uppercase;padding-top:0">
+            <div style="width:52px">Data</div>
+            <div style="flex:1">Produkt</div>
+            <div style="width:28px;text-align:center">Szt.</div>
+            <div style="width:64px;text-align:right">Wartość</div>
+            <div style="width:88px;text-align:right">Status</div>
+            <div style="width:60px"></div>
+          </div>
+          <div class="rh-row">
+            <div style="width:52px;color:var(--text-muted)">02.06</div>
+            <div style="flex:1;color:var(--brown)">Espresso Blend Ciemny 5kg</div>
+            <div style="width:28px;text-align:center;color:var(--text-muted)">×2</div>
+            <div style="width:64px;text-align:right;font-weight:500;color:var(--brown)">420 zł</div>
+            <div style="width:88px;text-align:right"><span class="badge ok">Dostarczone</span></div>
+            <div style="width:60px;text-align:right"><button class="btn sm">Ponów</button></div>
+          </div>
+          <div class="rh-row">
+            <div style="width:52px;color:var(--text-muted)">02.06</div>
+            <div style="flex:1;color:var(--brown)">Ethiopia Yirgacheffe 2kg</div>
+            <div style="width:28px;text-align:center;color:var(--text-muted)">×1</div>
+            <div style="width:64px;text-align:right;font-weight:500;color:var(--brown)">290 zł</div>
+            <div style="width:88px;text-align:right"><span class="badge ok">Dostarczone</span></div>
+            <div style="width:60px;text-align:right"><button class="btn sm">Ponów</button></div>
+          </div>
+          <div class="rh-row">
+            <div style="width:52px;color:var(--text-muted)">14.05</div>
+            <div style="flex:1;color:var(--brown)">Drip Bagi mix 50 szt.</div>
+            <div style="width:28px;text-align:center;color:var(--text-muted)">×3</div>
+            <div style="width:64px;text-align:right;font-weight:500;color:var(--brown)">360 zł</div>
+            <div style="width:88px;text-align:right"><span class="badge ok">Dostarczone</span></div>
+            <div style="width:60px;text-align:right"><button class="btn sm">Ponów</button></div>
+          </div>
+          <div class="rh-row">
+            <div style="width:52px;color:var(--text-muted)">28.04</div>
+            <div style="flex:1;color:var(--brown)">Espresso Blend Jasny 5kg</div>
+            <div style="width:28px;text-align:center;color:var(--text-muted)">×2</div>
+            <div style="width:64px;text-align:right;font-weight:500;color:var(--brown)">420 zł</div>
+            <div style="width:88px;text-align:right"><span class="badge ok">Dostarczone</span></div>
+            <div style="width:60px;text-align:right"><button class="btn sm">Ponów</button></div>
+          </div>
+          <div class="rh-row">
+            <div style="width:52px;color:var(--text-muted)">10.04</div>
+            <div style="flex:1;color:var(--brown)">Colombia Huila 2kg</div>
+            <div style="width:28px;text-align:center;color:var(--text-muted)">×2</div>
+            <div style="width:64px;text-align:right;font-weight:500;color:var(--brown)">480 zł</div>
+            <div style="width:88px;text-align:right"><span class="badge pending">W realizacji</span></div>
+            <div style="width:60px;text-align:right"><button class="btn sm">Ponów</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOYALTY -->
+      <div id="tab-loyalty" class="rh-section">
+        <div class="rh-greeting">Program lojalnościowy</div>
+        <div class="rh-sub">Zbieraj punkty przy każdym zamówieniu i wymieniaj na rabaty</div>
+        <div class="rh-card">
+          <div class="rh-card-title">Twoje punkty</div>
+          <div style="font-family:'Georgia',serif;font-size:34px;color:var(--brown);margin-bottom:4px">620 <span style="font-size:16px;color:var(--text-muted)">pkt</span></div>
+          <div style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:var(--text-muted);margin-bottom:12px">Do progu 10% rabatu brakuje Ci jeszcze <strong style="color:var(--brown)">380 pkt</strong></div>
+          <div class="points-bar-wrap"><div class="points-bar"></div></div>
+          <div class="points-meta"><span>0</span><span>620 / 1000 pkt</span></div>
+        </div>
+        <div class="rh-card">
+          <div class="rh-card-title">Progi rabatowe</div>
+          <div class="rh-row">
+            <div style="flex:1;color:var(--brown);font-family:'Georgia',serif">500 pkt</div>
+            <div style="color:var(--text-muted);font-size:13px;font-family:'Helvetica Neue',sans-serif">Rabat 5% na następne zamówienie</div>
+            <span class="badge ok">Osiągnięty</span>
+          </div>
+          <div class="rh-row">
+            <div style="flex:1;color:var(--brown);font-family:'Georgia',serif">1 000 pkt</div>
+            <div style="color:var(--text-muted);font-size:13px;font-family:'Helvetica Neue',sans-serif">Rabat 10% na następne zamówienie</div>
+            <span class="badge pending">380 pkt brak</span>
+          </div>
+          <div class="rh-row">
+            <div style="flex:1;color:var(--brown);font-family:'Georgia',serif">2 000 pkt</div>
+            <div style="color:var(--text-muted);font-size:13px;font-family:'Helvetica Neue',sans-serif">Rabat 15% + priorytet dostawy</div>
+            <span class="badge pending">1 380 pkt brak</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUIZ -->
+      <div id="tab-quiz" class="rh-section">
+        <div class="rh-greeting">Doradca blendów</div>
+        <div class="rh-sub">3 pytania — dobierzemy kawę idealną dla Twojego lokalu i gości</div>
+        <div class="rh-card">
+          <div id="quiz-step-1" class="quiz-step active">
+            <div class="quiz-q">Jaki typ ekspresów dominuje w Twoim lokalu?</div>
+            <div class="quiz-opts">
+              <button class="quiz-opt" onclick="selectOpt(this)">Kolbowy (La Marzocca, Faema, Slayer…)</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Superautomat</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Metody przelewowe (V60, Chemex, Aeropress)</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Mix wszystkiego</button>
+            </div>
+            <div class="quiz-nav">
+              <div class="quiz-prog">Pytanie 1 z 3</div>
+              <button class="btn primary" onclick="nextStep(2)">Dalej →</button>
+            </div>
+          </div>
+          <div id="quiz-step-2" class="quiz-step">
+            <div class="quiz-q">Kim głównie są Twoi klienci?</div>
+            <div class="quiz-opts">
+              <button class="quiz-opt" onclick="selectOpt(this)">Koneserzy specialty — szukają historii</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Codzienni bywalcy — ważna niezawodność</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Biuro / corporate — liczy się efektywność</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Turyści i różnorodna publika</button>
+            </div>
+            <div class="quiz-nav">
+              <div class="quiz-prog">Pytanie 2 z 3</div>
+              <button class="btn primary" onclick="nextStep(3)">Dalej →</button>
+            </div>
+          </div>
+          <div id="quiz-step-3" class="quiz-step">
+            <div class="quiz-q">Jaki profil smakowy preferują Twoi goście?</div>
+            <div class="quiz-opts">
+              <button class="quiz-opt" onclick="selectOpt(this)">Owocowy, kwasowy, jasny palone</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Czekoladowy, orzechowy, zbalansowany</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Mocny, intensywny, ciemne palone</button>
+              <button class="quiz-opt" onclick="selectOpt(this)">Nie mam zdania — zaskocz mnie</button>
+            </div>
+            <div class="quiz-nav">
+              <div class="quiz-prog">Pytanie 3 z 3</div>
+              <button class="btn primary" onclick="showResult()">Zobacz rekomendację →</button>
+            </div>
+          </div>
+          <div id="quiz-result" class="quiz-step">
+            <div class="result-card">
+              <div class="result-title">Polecamy: Espresso Blend Zbalansowany</div>
+              <div class="result-desc">Idealny dla lokali z kolbowym espresso i wymagającą klientelą. Nuty orzecha laskowego, deserowej czekolady i delikatnej wiśni. Działa równie dobrze jako espresso i w mleku — bezpieczny wybór dla szerokiej publiki.</div>
+              <button class="btn primary">Zamów ten blend →</button>
+            </div>
+            <div style="margin-top:1rem;display:flex;justify-content:flex-end">
+              <button class="btn" onclick="resetQuiz()">Zacznij od nowa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MATERIALS -->
+      <div id="tab-materials" class="rh-section">
+        <div class="rh-greeting">Materiały dla Twojego lokalu</div>
+        <div class="rh-sub">Gotowe do użycia — pobierz i wdroż od razu</div>
+        <div class="rh-card">
+          <div class="rh-card-title">Sprzedaż i komunikacja</div>
+          <div class="mat-row">
+            <div class="mat-icon">☰</div>
+            <div>
+              <div class="mat-name">Karta menu z opisami kaw</div>
+              <div class="mat-type">PDF · gotowy do druku · PL / CZ / SK</div>
+            </div>
+            <button class="btn sm">Pobierz</button>
+          </div>
+          <div class="mat-row">
+            <div class="mat-icon">◻</div>
+            <div>
+              <div class="mat-name">Posty social media — nowa dostawa</div>
+              <div class="mat-type">JPG · 3 formaty · gotowe do publikacji</div>
+            </div>
+            <button class="btn sm">Pobierz</button>
+          </div>
+          <div class="mat-row">
+            <div class="mat-icon">⬡</div>
+            <div>
+              <div class="mat-name">QR kod do recenzji Google</div>
+              <div class="mat-type">PNG · format naklejki i ramki stołowej</div>
+            </div>
+            <button class="btn sm">Pobierz</button>
+          </div>
+        </div>
+        <div class="rh-card">
+          <div class="rh-card-title">Szkolenie personelu</div>
+          <div class="mat-row">
+            <div class="mat-icon">⊡</div>
+            <div>
+              <div class="mat-name">Karty produktowe dla baristy</div>
+              <div class="mat-type">PDF · 1 strona / blend · jak opowiadać o kawie gościom</div>
+            </div>
+            <button class="btn sm">Pobierz</button>
+          </div>
+          <div class="mat-row">
+            <div class="mat-icon">◎</div>
+            <div>
+              <div class="mat-name">Mini-szkolenie online (3 moduły)</div>
+              <div class="mat-type">Link · certyfikat ukończenia dla baristy</div>
+            </div>
+            <button class="btn sm">Otwórz</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /rh-main -->
+  </div><!-- /proto-shell -->
+</div><!-- /proto-wrap -->
+
+<hr class="divider">
+
+<div class="reflection">
+  <h2>Co tu zaprojektowałam i dlaczego</h2>
+  <div class="reflection-grid">
+    <div class="reflection-item">
+      <div class="reflection-label">Insight</div>
+      <div class="reflection-text">Klient B2B kupuje kawę dla swoich gości. Jeśli dasz mu narzędzia do sprzedawania jej dalej — lojalność rośnie organicznie.</div>
+    </div>
+    <div class="reflection-item">
+      <div class="reflection-label">Kluczowe decyzje</div>
+      <div class="reflection-text">Alert o końcu zapasów zamiast biernej historii. Quiz blendów zamiast katalogu. Materiały marketingowe jako część panelu — nie osobny mailing.</div>
+    </div>
+    <div class="reflection-item">
+      <div class="reflection-label">Trzy rynki, jeden system</div>
+      <div class="reflection-text">Przełącznik PL/CZ/SK w pasku bocznym — jeden interfejs, lokalizowane dane. Klient widzi historię swojego rynku, nie globalną.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-name">Iga Dróżdż · ConceptiON</span>
+  <a href="index.html" class="footer-back">← Wróć do portfolio</a>
+</footer>
+
+<script>
+function switchTab(id, el) {
+  document.querySelectorAll('.rh-section').forEach(s => s.classList.remove('visible'));
+  document.getElementById('tab-' + id).classList.add('visible');
+  document.querySelectorAll('.rh-nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+function selectOpt(el) {
+  el.closest('.quiz-opts').querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function nextStep(n) {
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('quiz-step-' + n).classList.add('active');
+}
+function showResult() {
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('quiz-result').classList.add('active');
+}
+function resetQuiz() {
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('quiz-step-1').classList.add('active');
+  document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+}
+function setLang(el) {
+  document.querySelectorAll('.rh-lang-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+
+</body>
+</html>
