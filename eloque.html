@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eloque — AI Speech Trainer · Iga Dróżdż</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--cream:#faf8f3;--warm:#f0ebe0;--sand:#e8e0d0;--bark:#8c6d4f;--bark-light:#b8926a;--ink:#2a2218;--ink-mid:#5a4e3e;--ink-soft:#8a7d6e;--sage:#7a9e8a;--sage-light:#a8c4b4;--accent:#c8632a}
+    body{background:var(--cream);font-family:'Outfit',sans-serif;color:var(--ink)}
+    .page{max-width:680px;margin:0 auto;padding:0 24px 5rem}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0;border-bottom:1px solid var(--sand);margin-bottom:2.5rem}
+    .nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-soft);text-decoration:none;transition:color 0.15s}
+    .nav-back:hover{color:var(--bark)}
+    .nav-logo{font-family:'Lora',serif;font-size:15px;color:var(--bark);font-style:italic}
+    .project-eyebrow{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
+    .project-eyebrow::before{content:'';width:20px;height:1px;background:var(--bark-light)}
+    h1{font-family:'Lora',serif;font-size:36px;font-weight:400;line-height:1.2;margin-bottom:0.75rem}
+    .project-subtitle{font-size:15px;color:var(--ink-soft);line-height:1.7;max-width:520px;margin-bottom:1.5rem}
+    .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem}
+    .meta-tag{font-size:11px;padding:4px 12px;border-radius:20px;background:var(--warm);color:var(--ink-mid);border:1px solid var(--sand)}
+    .meta-tag.accent{background:#e8f5f0;color:#2a7a5a;border-color:#a8d4c0}
+    .divider{border:none;border-top:1px solid var(--sand);margin:2rem 0}
+    .section-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--sand)}
+    .body-text{font-size:14px;color:var(--ink-soft);line-height:1.8;margin-bottom:1rem}
+    .highlight-box{background:var(--warm);border-radius:12px;padding:16px;border:1px solid var(--sand);margin-bottom:1.5rem}
+    .highlight-box p{font-size:14px;color:var(--ink-mid);line-height:1.7}
+    .highlight-box strong{color:var(--ink);font-weight:500}
+
+    /* ELOQUE HERO VISUAL */
+    .eloque-hero{background:linear-gradient(135deg,#1a2a1a,#2a3a28);border-radius:16px;padding:2.5rem 2rem;margin-bottom:2rem;text-align:center;position:relative;overflow:hidden}
+    .eloque-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(168,196,180,0.06)}
+    .eloque-tagline-small{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage-light);margin-bottom:1rem;opacity:0.7}
+    .eloque-name{font-family:'Lora',serif;font-size:40px;color:#f5f0e8;font-style:italic;margin-bottom:0.5rem}
+    .eloque-quote{font-family:'Lora',serif;font-size:14px;color:var(--sage-light);font-style:italic;line-height:1.6;max-width:400px;margin:0 auto 1.5rem;opacity:0.8}
+    .eloque-live-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--sage);color:#fff;border-radius:20px;font-size:13px;font-weight:500;text-decoration:none;transition:background 0.15s}
+    .eloque-live-btn:hover{background:var(--sage-light)}
+    .eloque-live-dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.5s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:0.4}50%{opacity:1}}
+
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+    .info-card{background:#fff;border-radius:12px;padding:14px;border:1px solid var(--sand)}
+    .info-card-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--bark);font-weight:500;margin-bottom:6px}
+    .info-card-val{font-size:13px;color:var(--ink-mid);line-height:1.6}
+
+    .story-card{border-left:3px solid var(--sage);padding-left:16px;margin-bottom:1.5rem}
+    .story-card p{font-size:14px;color:var(--ink-mid);line-height:1.8;font-style:italic}
+
+    .roadmap{display:flex;flex-direction:column;gap:0;margin-bottom:1.5rem}
+    .rm-item{display:flex;gap:12px;padding-bottom:18px}
+    .rm-item:last-child{padding-bottom:0}
+    .rm-left{display:flex;flex-direction:column;align-items:center}
+    .rm-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+    .rm-dot.f1{background:#e8f5f0;color:#2a7a5a}.rm-dot.f2{background:#fef3e2;color:#9a6010}.rm-dot.f3{background:var(--warm);color:var(--ink-soft)}
+    .rm-line{flex:1;width:1px;background:var(--sand);min-height:14px;margin-top:4px}
+    .rm-content{flex:1;padding-top:4px}
+    .rm-phase{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--bark);margin-bottom:2px}
+    .rm-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+    .rm-items{font-size:12px;color:var(--ink-soft);line-height:1.6}
+    .rm-weeks{font-size:11px;color:var(--ink-soft);opacity:0.6;margin-top:3px}
+
+    .segment-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+    .segment-card{background:#fff;border-radius:10px;padding:12px;border:1px solid var(--sand)}
+    .segment-label{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--bark);font-weight:500;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+    .segment-val{font-size:12px;color:var(--ink-mid);line-height:1.6}
+
+    .back-to-portfolio{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--bark);text-decoration:none;padding:8px 16px;border:1px solid var(--sand);border-radius:20px;transition:background 0.15s;margin-top:1rem}
+    .back-to-portfolio:hover{background:var(--warm)}
+    @media(max-width:520px){.two-col,.segment-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav class="nav">
+    <a class="nav-back" href="index.html"><i class="ti ti-arrow-left" style="font-size:14px" aria-hidden="true"></i> Portfolio</a>
+    <span class="nav-logo">Iga Dróżdż</span>
+  </nav>
+
+  <div class="project-eyebrow">Founder · Product · 0→1</div>
+  <h1>Eloque</h1>
+  <p class="project-subtitle">Własna aplikacja do trenowania komunikacji mówionej z AI feedbackiem. Od pomysłu po działający MVP — sama definiuję produkt, projektuję UX i buduję.</p>
+  <div class="meta-row">
+    <span class="meta-tag accent">MVP Live</span>
+    <span class="meta-tag">B2C + B2B</span>
+    <span class="meta-tag">Next.js PWA</span>
+    <span class="meta-tag">Claude API</span>
+    <span class="meta-tag">Subskrypcja</span>
+  </div>
+
+  <div class="eloque-hero">
+    <div class="eloque-tagline-small">AI Speech Trainer</div>
+    <div class="eloque-name">Eloque</div>
+    <div class="eloque-quote">"Aby język giętki powiedział wszystko, co pomyśli głowa."<br>— Juliusz Słowacki</div>
+    <a class="eloque-live-btn" href="https://eloque-beta.vercel.app" target="_blank">
+      <span class="eloque-live-dot"></span>
+      MVP live — wypróbuj
+      <i class="ti ti-external-link" style="font-size:13px" aria-hidden="true"></i>
+    </a>
+  </div>
+
+  <div class="section-label">Skąd ten pomysł</div>
+  <div class="story-card">
+    <p>Jako dziecko przed każdą rozmową telefoniczną rysowałam drzewka rozmów — wszystkie możliwe scenariusze, pytania, odpowiedzi. Komunikacja mówiona zawsze była dla mnie czymś, nad czym można pracować. Kiedy zaczęłam pracować z klientami i zespołami, zobaczyłam że ten problem dotyczy wielu ludzi — i że AI może to rozwiązać.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <div class="info-card-label">Problem</div>
+      <div class="info-card-val">Brak narzędzia do trenowania komunikacji mówionej z natychmiastowym, spersonalizowanym feedbackiem.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Rozwiązanie</div>
+      <div class="info-card-val">Użytkownik nagrywa odpowiedź na prompt, AI analizuje tempo, strukturę, słownictwo i styl.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Segmenty docelowe</div>
+  <div class="segment-grid">
+    <div class="segment-card"><div class="segment-label"><i class="ti ti-briefcase" style="font-size:13px" aria-hidden="true"></i> B2C — Biznes</div><div class="segment-val">Prezentacje, negocjacje, rozmowy rekrutacyjne, pitch.</div></div>
+    <div class="segment-card"><div class="segment-label"><i class="ti ti-school" style="font-size:13px" aria-hidden="true"></i> B2C — Edukacja</div><div class="segment-val">Matura ustna, studia, pierwsze rozmowy o pracę.</div></div>
+    <div class="segment-card"><div class="segment-label"><i class="ti ti-building" style="font-size:13px" aria-hidden="true"></i> B2B — Szkoły</div><div class="segment-val">Licencje klasowe, integracja z programem nauczania.</div></div>
+    <div class="segment-card"><div class="segment-label"><i class="ti ti-users" style="font-size:13px" aria-hidden="true"></i> B2B — HR</div><div class="segment-val">Onboarding, szkolenia komunikacyjne, coaching.</div></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Roadmapa produktu</div>
+  <div class="roadmap">
+    <div class="rm-item"><div class="rm-left"><div class="rm-dot f1">✓</div><div class="rm-line"></div></div><div class="rm-content"><div class="rm-phase">Faza 1 · MVP — Done</div><div class="rm-title">Core flow + AI feedback</div><div class="rm-items">Onboarding → diagnoza → nagranie → analiza AI → feedback · Next.js PWA · Claude API · Vercel deploy</div></div></div>
+    <div class="rm-item"><div class="rm-left"><div class="rm-dot f2">F2</div><div class="rm-line"></div></div><div class="rm-content"><div class="rm-phase">Faza 2 · Engagement</div><div class="rm-title">Fiszki, streak, odznaki, tryb klasowy</div><div class="rm-items">Gamifikacja · Wyzwania · Postęp w czasie · Certyfikaty</div><div class="rm-weeks">Q3 2026</div></div></div>
+    <div class="rm-item"><div class="rm-left"><div class="rm-dot f3">F3</div></div><div class="rm-content"><div class="rm-phase">Faza 3 · Skala</div><div class="rm-title">Mini-gry, tryb konkursowy, ekspansja językowa</div><div class="rm-items">Multi-language · B2B onboarding · Dotacje EU edtech</div><div class="rm-weeks">Q1 2027</div></div></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="highlight-box">
+    <p><strong>Status:</strong> MVP live na <a href="https://eloque-beta.vercel.app" target="_blank" style="color:var(--sage)">eloque-beta.vercel.app</a>. Aplikacja złożona do Outrebel Venture Studio. Analizuję możliwości aplikacji do programów akceleracyjnych PARP/EU dla edtech.</p>
+  </div>
+
+  <a href="index.html" class="back-to-portfolio"><i class="ti ti-arrow-left" style="font-size:13px" aria-hidden="true"></i> Wróć do portfolio</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iga Dróżdż · Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--cream:#faf8f3;--warm:#f0ebe0;--sand:#e8e0d0;--bark:#8c6d4f;--bark-light:#b8926a;--ink:#2a2218;--ink-mid:#5a4e3e;--ink-soft:#8a7d6e;--sage:#7a9e8a;--accent:#c8632a}
+    html{scroll-behavior:smooth}
+    body{background:var(--cream);font-family:'Outfit',sans-serif;color:var(--ink)}
+    .page{max-width:680px;margin:0 auto;padding:0 24px 5rem}
+    .hero{padding:4rem 0 2.5rem}
+    .hero-eyebrow{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+    .hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--bark-light)}
+    .hero-name{font-family:'Lora',serif;font-size:48px;font-weight:400;color:var(--ink);line-height:1.1;margin-bottom:0.75rem}
+    .hero-name em{font-style:italic;color:var(--bark)}
+    .hero-hook{font-family:'Lora',serif;font-size:19px;font-style:italic;color:var(--ink-mid);margin-bottom:1.5rem;line-height:1.5}
+    .hero-bio{font-size:15px;color:var(--ink-soft);line-height:1.85;max-width:520px;margin-bottom:2rem}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:8px}
+    .tag{font-size:12px;padding:5px 12px;border-radius:20px;background:var(--warm);color:var(--ink-mid);border:1px solid var(--sand)}
+    .tag.accent{background:#fdf0e8;color:var(--accent);border-color:#f0c8a8}
+    .divider{border:none;border-top:1px solid var(--sand);margin:2.5rem 0}
+    .section-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--sand)}
+    .projects{display:flex;flex-direction:column;gap:1.25rem}
+    .project-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--sand);transition:transform 0.2s,box-shadow 0.2s;text-decoration:none;display:block;animation:fadeUp 0.5s ease both}
+    .project-card:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(42,34,24,0.1)}
+    .project-card:nth-child(1){animation-delay:0.1s}
+    .project-card:nth-child(2){animation-delay:0.2s}
+    .project-card:nth-child(3){animation-delay:0.3s}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .project-thumb{height:140px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .thumb-legimi{background:linear-gradient(135deg,#1a1208,#2a1a0a)}
+    .thumb-instream{background:linear-gradient(135deg,#0e1a2a,#1a2e3a)}
+    .thumb-eloque{background:linear-gradient(135deg,#1a2a1a,#2a3a28)}
+    .thumb-label{font-family:'Lora',serif;font-size:22px;color:rgba(255,255,255,0.12);font-style:italic;user-select:none}
+    .thumb-badge{position:absolute;top:12px;left:14px;font-size:10px;padding:3px 10px;border-radius:20px;font-weight:500;letter-spacing:0.05em}
+    .badge-gold{background:#c8922a22;color:#c8922a;border:1px solid #c8922a44}
+    .badge-blue{background:#2a6a9a22;color:#6aacda;border:1px solid #2a6a9a44}
+    .badge-sage{background:#2a6a4a22;color:#6aaa8a;border:1px solid #2a6a4a44}
+    .thumb-chips{position:absolute;bottom:12px;right:14px;display:flex;gap:6px}
+    .chip{font-size:10px;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}
+    .thumb-arrow{position:absolute;bottom:12px;left:14px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:14px;transition:background 0.15s}
+    .project-card:hover .thumb-arrow{background:rgba(255,255,255,0.2)}
+    .project-body{padding:18px 20px 20px}
+    .project-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .project-type{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-soft);font-weight:500}
+    .project-status{font-size:11px;color:var(--sage);display:flex;align-items:center;gap:4px}
+    .project-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sage)}
+    .project-title{font-family:'Lora',serif;font-size:19px;font-weight:400;margin-bottom:6px;color:var(--ink);line-height:1.3}
+    .project-desc{font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px}
+    .project-highlights{display:flex;gap:8px;flex-wrap:wrap}
+    .highlight{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--warm);color:var(--ink-mid)}
+    .project-cta{padding:12px 20px;border-top:1px solid var(--sand);display:flex;align-items:center;justify-content:space-between;background:var(--cream)}
+    .project-cta-text{font-size:12px;color:var(--bark);font-weight:500}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+    .about-card{background:var(--warm);border-radius:12px;padding:14px;border:1px solid var(--sand)}
+    .about-card-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--bark);font-weight:500;margin-bottom:6px}
+    .about-card-val{font-size:13px;color:var(--ink-mid);line-height:1.6}
+    .contact-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:20px;background:var(--warm);border-radius:16px;border:1px solid var(--sand)}
+    .contact-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#b8926a,#8c6d4f);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:18px;color:#fff;font-style:italic;flex-shrink:0}
+    .contact-info{flex:1}
+    .contact-name{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:2px}
+    .contact-tagline{font-size:12px;color:var(--ink-soft)}
+    .contact-links{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .contact-link{font-size:12px;padding:6px 14px;border-radius:20px;background:#fff;color:var(--ink-mid);border:1px solid var(--sand);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:border-color 0.15s,color 0.15s}
+    .contact-link:hover{border-color:var(--bark-light);color:var(--bark)}
+    @media(max-width:480px){.hero-name{font-size:36px}.about-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="hero">
+    <div class="hero-eyebrow">Portfolio · ConceptiON</div>
+    <div class="hero-name">Iga<br><em>Dróżdż</em></div>
+    <div class="hero-hook">"I started in marketing.<br>Then clients asked me to build things."</div>
+    <div class="hero-bio">Zaczęłam od marketingu — strategii, kampanii, komunikacji. W pewnym momencie klienci zaczęli pytać nie tylko "jak to sprzedać?" ale "jak to zbudować?". Zaczęłam działać na styku: biznes, użytkownik, zespół developerski. Tłumaczyłam wymagania w obie strony. Uczyłam się myśleć technicznie. I zakochałam się w tym miejscu — gdzie pomysł staje się produktem.</div>
+    <div class="hero-tags">
+      <span class="tag accent">Product Ideation</span>
+      <span class="tag">AI & Automation</span>
+      <span class="tag">Operations</span>
+      <span class="tag">B2B Marketing</span>
+      <span class="tag">Prototyping</span>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="section-label">Wybrane projekty</div>
+  <div class="projects">
+    <a class="project-card" href="legimi.html">
+      <div class="project-thumb thumb-legimi">
+        <span class="thumb-label">Legimi</span>
+        <div class="thumb-badge badge-gold">Feature Concept</div>
+        <div class="thumb-arrow"><i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="thumb-chips"><span class="chip">UX</span><span class="chip">AI</span><span class="chip">PRD</span></div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta"><span class="project-type">Product Design</span><span class="project-status">Interaktywny prototyp</span></div>
+        <div class="project-title">AI Reading Companion — Legimi</div>
+        <div class="project-desc">Zaprojektowałam funkcję personalizowanych rekomendacji dla platformy Legimi — od discovery i user research, przez PRD z user stories, po clickable prototyp UI.</div>
+        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div><div class="project-highlights"><span class="highlight">User research</span><span class="highlight">User stories + AC</span><span class="highlight">Clickable prototype</span><span class="highlight">Metryki sukcesu</span></div>
+      </div>
+      <div class="project-cta"><span class="project-cta-text">Zobacz case study i prototyp →</span></div>
+    </a>
+    <a class="project-card" href="instream.html">
+      <div class="project-thumb thumb-instream">
+        <span class="thumb-label">Client Portal</span>
+        <div class="thumb-badge badge-blue">Internal Tool</div>
+        <div class="thumb-arrow"><i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="thumb-chips"><span class="chip">Dashboard</span><span class="chip">AI</span></div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta"><span class="project-type">Operations & Product</span><span class="project-status">Działający prototyp</span></div>
+        <div class="project-title">Cold Email Client Portal</div>
+        <div class="project-desc">Zaprojektowałam i zbudowałam interaktywny portal dla klientów agencji cold email — od onboardingu przez strategię kampanii po dashboard z metrykami i harmonogramem.</div>
+        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div><div class="project-highlights"><span class="highlight">Process mapping</span><span class="highlight">AI strategy</span><span class="highlight">Client UX</span><span class="highlight">5-step wizard</span></div>
+      </div>
+      <div class="project-cta"><span class="project-cta-text">Zobacz dashboard →</span></div>
+    </a>
+    <a class="project-card" href="eloque.html">
+      <div class="project-thumb thumb-eloque">
+        <span class="thumb-label">Eloque</span>
+        <div class="thumb-badge badge-sage">Own Product</div>
+        <div class="thumb-arrow"><i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="thumb-chips"><span class="chip">MVP live</span><span class="chip">B2C</span></div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta"><span class="project-type">Founder · Product</span><span class="project-status">MVP live</span></div>
+        <div class="project-title">Eloque — AI Speech Trainer</div>
+        <div class="project-desc">Buduję własną aplikację do trenowania komunikacji mówionej z feedbackiem AI. Od pomysłu po działający MVP — sama definiuję produkt, projektuję UX i buduję.</div>
+        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div><div class="project-highlights"><span class="highlight">0→1 product</span><span class="highlight">B2C + B2B</span><span class="highlight">Next.js PWA</span><span class="highlight">Claude API</span></div>
+      </div>
+      <div class="project-cta"><span class="project-cta-text">Zobacz produkt →</span></div>
+    </a>
+  </div>
+  <hr class="divider">
+  <div class="section-label">Kim jestem</div>
+  <div class="about-grid">
+    <div class="about-card"><div class="about-card-label">Tło</div><div class="about-card-val">Marketing → operacje → product. Naturalna ewolucja, nie przypadek.</div></div>
+    <div class="about-card"><div class="about-card-label">Superpower</div><div class="about-card-val">Tłumaczę między światami — biznes, użytkownik, dev team.</div></div>
+    <div class="about-card"><div class="about-card-label">Jak pracuję</div><div class="about-card-val">Discovery najpierw. Potem prototyp. Potem dane. Nie odwrotnie.</div></div>
+    <div class="about-card"><div class="about-card-label">Teraz</div><div class="about-card-val">Szukam roli PM/PO gdzie produkt i ludzie są na pierwszym miejscu.</div></div>
+  </div>
+  <hr class="divider">
+  <div class="section-label">Kontakt</div>
+  <div class="contact-row">
+    <div class="contact-avatar">I</div>
+    <div class="contact-info">
+      <div class="contact-name">Iga Dróżdż · ConceptiON</div>
+      <div class="contact-tagline">Product · Operations · AI — open to PM/PO roles</div>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:igadrozdz93@gmail.com"><i class="ti ti-mail" style="font-size:13px" aria-hidden="true"></i> igadrozdz93@gmail.com</a>
+        <a class="contact-link" href="https://www.linkedin.com/in/iga-drozdz/" target="_blank"><i class="ti ti-brand-linkedin" style="font-size:13px" aria-hidden="true"></i> LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

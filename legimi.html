@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Reading Companion — Legimi · Iga Dróżdż</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--cream:#faf8f3;--warm:#f0ebe0;--sand:#e8e0d0;--bark:#8c6d4f;--bark-light:#b8926a;--ink:#2a2218;--ink-mid:#5a4e3e;--ink-soft:#8a7d6e;--sage:#7a9e8a;--accent:#c8632a}
+    body{background:var(--cream);font-family:'Outfit',sans-serif;color:var(--ink)}
+    .page{max-width:680px;margin:0 auto;padding:0 24px 5rem}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0;border-bottom:1px solid var(--sand);margin-bottom:2.5rem}
+    .nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-soft);text-decoration:none;transition:color 0.15s}
+    .nav-back:hover{color:var(--bark)}
+    .nav-logo{font-family:'Lora',serif;font-size:15px;color:var(--bark);font-style:italic}
+    .project-eyebrow{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
+    .project-eyebrow::before{content:'';width:20px;height:1px;background:var(--bark-light)}
+    .project-title{font-family:'Lora',serif;font-size:36px;font-weight:400;line-height:1.2;margin-bottom:0.75rem}
+    .project-subtitle{font-size:15px;color:var(--ink-soft);line-height:1.7;max-width:520px;margin-bottom:1.5rem}
+    .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2.5rem}
+    .meta-tag{font-size:11px;padding:4px 12px;border-radius:20px;background:var(--warm);color:var(--ink-mid);border:1px solid var(--sand)}
+    .meta-tag.accent{background:#fdf0e8;color:var(--accent);border-color:#f0c8a8}
+    .divider{border:none;border-top:1px solid var(--sand);margin:2rem 0}
+    .section-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--sand)}
+    .body-text{font-size:14px;color:var(--ink-soft);line-height:1.8;margin-bottom:1rem}
+    .highlight-box{background:var(--warm);border-radius:12px;padding:16px;border:1px solid var(--sand);margin-bottom:1.5rem}
+    .highlight-box p{font-size:14px;color:var(--ink-mid);line-height:1.7}
+    .highlight-box strong{color:var(--ink);font-weight:500}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+    .info-card{background:#fff;border-radius:12px;padding:14px;border:1px solid var(--sand)}
+    .info-card-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--bark);font-weight:500;margin-bottom:6px}
+    .info-card-val{font-size:13px;color:var(--ink-mid);line-height:1.6}
+
+    /* PROTOTYPE EMBED */
+    .prototype-wrap{background:#111;border-radius:20px;padding:2rem;margin-bottom:2rem;display:flex;justify-content:center;align-items:flex-start;gap:2rem;flex-wrap:wrap}
+    .phone{width:300px;background:#0f0f0f;border-radius:32px;overflow:hidden;border:1.5px solid #2a2a2a;font-family:'Outfit',sans-serif;box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+    .status-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 20px 4px;font-size:11px;color:#888}
+    .screen{display:none}.screen.active{display:block}
+    .book-finish{padding:20px 20px 0;background:linear-gradient(180deg,#1a1208 0%,#0f0f0f 60%)}
+    .book-cover-big{width:110px;height:155px;border-radius:8px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .book-cover-big::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#c8922a,#7a4f10);opacity:0.9}
+    .book-cover-big span{position:relative;z-index:1;font-family:'Lora',serif;font-size:12px;color:#fff;text-align:center;padding:10px;line-height:1.4}
+    .finish-label{text-align:center;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#c8922a;margin-bottom:4px}
+    .finish-title{text-align:center;font-family:'Lora',serif;font-size:17px;color:#f5f0e8;margin-bottom:4px}
+    .finish-author{text-align:center;font-size:11px;color:#666;margin-bottom:14px}
+    .stars-row{display:flex;justify-content:center;gap:6px;margin-bottom:6px}
+    .star{font-size:22px;cursor:pointer;color:#333;transition:all 0.15s}
+    .star.lit{color:#c8922a}
+    .rate-label{text-align:center;font-size:11px;color:#555;margin-bottom:14px;min-height:14px}
+    .screen-pad{padding:0 18px 20px}
+    .btn-p{width:100%;padding:12px;border-radius:12px;background:#c8922a;color:#0f0f0f;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;border:none;cursor:pointer;margin-bottom:8px;transition:opacity 0.15s}
+    .btn-p:hover{opacity:0.88}
+    .btn-g{width:100%;padding:12px;border-radius:12px;background:transparent;color:#c8922a;font-family:'Outfit',sans-serif;font-size:13px;border:1.5px solid #c8922a55;cursor:pointer;transition:background 0.15s}
+    .btn-g:hover{background:#c8922a11}
+    .rec-header{padding:14px 18px 10px}
+    .rec-eyebrow{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#c8922a;margin-bottom:4px}
+    .rec-title{font-family:'Lora',serif;font-size:19px;color:#f5f0e8}
+    .rec-sub{font-size:11px;color:#555;margin-top:3px;min-height:14px}
+    .rec-list{padding:0 18px;display:flex;flex-direction:column;gap:10px}
+    .rec-card{background:#161616;border-radius:12px;padding:12px;border:1px solid #222;display:flex;gap:10px;cursor:pointer;transition:border-color 0.15s;position:relative;animation:fadeUp 0.3s ease both}
+    .rec-card:hover{border-color:#c8922a44;background:#1c1a14}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .rec-mini-cover{width:46px;height:64px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;text-align:center;padding:4px;font-family:'Lora',serif;line-height:1.3}
+    .rec-info{flex:1;min-width:0}
+    .rec-book-title{font-size:12px;font-weight:500;color:#f0ece4;margin-bottom:2px;line-height:1.3}
+    .rec-book-author{font-size:10px;color:#555;margin-bottom:5px}
+    .rec-reason{font-size:10px;color:#c8922a;line-height:1.4;padding:4px 7px;background:#1f1708;border-radius:5px}
+    .rec-badge{position:absolute;top:8px;right:8px;font-size:9px;padding:2px 6px;border-radius:20px;background:#c8922a22;color:#c8922a;border:0.5px solid #c8922a44}
+    .rec-footer{padding:10px 18px 18px}
+    .btn-s{width:100%;padding:9px;border-radius:10px;background:transparent;color:#555;font-family:'Outfit',sans-serif;font-size:11px;border:1px solid #222;cursor:pointer;transition:background 0.15s}
+    .btn-s:hover{background:#1a1a1a}
+    .loading-card{background:#161616;border-radius:12px;padding:18px;border:1px solid #222;text-align:center}
+    .loading-dots{display:flex;justify-content:center;gap:5px;margin-bottom:7px}
+    .loading-dot{width:5px;height:5px;border-radius:50%;background:#c8922a;animation:pulse 1.2s ease-in-out infinite}
+    .loading-dot:nth-child(2){animation-delay:0.2s}.loading-dot:nth-child(3){animation-delay:0.4s}
+    @keyframes pulse{0%,100%{opacity:0.2}50%{opacity:1}}
+    .loading-text{font-size:11px;color:#555}
+    .detail-cover{height:160px;display:flex;align-items:flex-end;padding:14px 18px;position:relative}
+    .detail-cover-bg{position:absolute;inset:0}
+    .detail-cover-info{position:relative;z-index:1}
+    .detail-title{font-family:'Lora',serif;font-size:18px;color:#f5f0e8;line-height:1.3;margin-bottom:3px}
+    .detail-author{font-size:12px;color:#c8922a}
+    .detail-body{padding:14px 18px}
+    .detail-reason-box{background:#1a1408;border:1px solid #c8922a33;border-radius:8px;padding:10px;margin-bottom:12px}
+    .detail-reason-label{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:#c8922a;margin-bottom:3px}
+    .detail-reason-text{font-size:12px;color:#c4b99a;line-height:1.6}
+    .detail-desc{font-size:12px;color:#666;line-height:1.6;margin-bottom:12px}
+    .detail-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+    .detail-tag{font-size:10px;padding:3px 8px;border-radius:20px;background:#1a1a1a;color:#555;border:1px solid #222}
+    .back-btn{display:flex;align-items:center;gap:5px;background:none;border:none;color:#555;font-size:11px;cursor:pointer;padding:0;margin-bottom:10px;font-family:'Outfit',sans-serif}
+
+    .proto-guide{max-width:200px;padding-top:1rem}
+    .guide-title{font-size:13px;font-weight:500;color:#f5f0e8;margin-bottom:0.75rem;font-family:'Lora',serif;font-style:italic}
+    .guide-step{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start}
+    .guide-num{width:18px;height:18px;border-radius:50%;background:#c8922a22;color:#c8922a;font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+    .guide-text{font-size:11px;color:#888;line-height:1.5}
+    .guide-note{font-size:10px;color:#555;margin-top:8px;line-height:1.5;padding:8px;background:#1a1a1a;border-radius:6px}
+
+    .prd-section{margin-bottom:2rem}
+    .story-list{display:flex;flex-direction:column;gap:10px}
+    .story{border:1px solid var(--sand);border-radius:12px;background:#fff;overflow:hidden}
+    .story-header{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer}
+    .story-id{font-size:11px;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--warm);color:var(--ink-soft);flex-shrink:0}
+    .story-title{font-size:13px;font-weight:500;flex:1;color:var(--ink)}
+    .story-prio{font-size:10px;padding:2px 8px;border-radius:20px;flex-shrink:0}
+    .must{background:#fde8e8;color:#c03030}.should{background:#fef3e2;color:#9a6010}.could{background:var(--warm);color:var(--ink-soft)}
+    .story-body{display:none;padding:0 14px 14px;border-top:1px solid var(--sand);background:var(--cream)}
+    .story-body.open{display:block}
+    .story-field{margin-top:10px}
+    .story-field-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--bark);margin-bottom:4px}
+    .story-field-val{font-size:13px;color:var(--ink-mid);line-height:1.6}
+    .ac-list{list-style:none;display:flex;flex-direction:column;gap:3px;margin-top:4px}
+    .ac-list li{font-size:12px;color:var(--ink-soft);padding-left:16px;position:relative;line-height:1.5}
+    .ac-list li::before{content:'✓';position:absolute;left:0;color:var(--sage);font-size:11px}
+
+    .kpi-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:1.5rem}
+    .kpi-table th{font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--ink-soft);padding:8px 10px;text-align:left;border-bottom:1px solid var(--sand);font-weight:500}
+    .kpi-table td{padding:9px 10px;border-bottom:1px solid var(--sand);color:var(--ink)}
+    .kpi-table tr:last-child td{border-bottom:none}
+    .kbadge{font-size:11px;padding:2px 8px;border-radius:20px}
+    .kb-r{background:#e8f3ee;color:#2a7a5a}.kb-e{background:#e8f0fa;color:#2a5a9a}.kb-v{background:#fef3e2;color:#9a6010}
+
+    .back-to-portfolio{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--bark);text-decoration:none;padding:8px 16px;border:1px solid var(--sand);border-radius:20px;transition:background 0.15s;margin-top:1rem}
+    .back-to-portfolio:hover{background:var(--warm)}
+
+    @media(max-width:520px){.prototype-wrap{padding:1rem}.proto-guide{max-width:100%}.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav class="nav">
+    <a class="nav-back" href="index.html"><i class="ti ti-arrow-left" style="font-size:14px" aria-hidden="true"></i> Portfolio</a>
+    <span class="nav-logo">Iga Dróżdż</span>
+  </nav>
+
+  <div class="project-eyebrow">Product Design · Feature Concept</div>
+  <h1 class="project-title">AI Reading Companion</h1>
+  <p class="project-subtitle">Zaprojektowałam funkcję personalizowanych rekomendacji dla Legimi — od discovery i analizy user research, przez PRD z user stories, po interaktywny prototyp UI.</p>
+  <div class="meta-row">
+    <span class="meta-tag accent">Product Design</span>
+    <span class="meta-tag">User Research</span>
+    <span class="meta-tag">PRD</span>
+    <span class="meta-tag">Prototyp UI</span>
+    <span class="meta-tag">Metryki</span>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Problem:</strong> Legimi ma 250 000 tytułów, ale brak personalizacji powoduje "paraliż wyboru" — użytkownicy nie wiedzą co czytać dalej i rezygnują z abonamentu. Empik Go wyprzedza Legimi oceną w Google Play (4,6 vs 4,4★).</p>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <div class="info-card-label">North Star Metric</div>
+      <div class="info-card-val">Books started per active user / miesiąc</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Cel po 90 dniach</div>
+      <div class="info-card-val">+15% books started · churn -10%</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Interaktywny prototyp</div>
+
+  <div class="prototype-wrap">
+    <div class="phone">
+      <div class="status-bar"><span>9:41</span><span>legimi</span><span>●●●</span></div>
+      <div class="screen active" id="s1">
+        <div class="book-finish">
+          <div class="book-cover-big"><span>Zbrodnia i kara</span></div>
+          <div class="finish-label">Ukończyłaś książkę 🎉</div>
+          <div class="finish-title">Zbrodnia i kara</div>
+          <div class="finish-author">Fiodor Dostojewski</div>
+          <div class="stars-row">
+            <span class="star" onclick="rate(1)">★</span><span class="star" onclick="rate(2)">★</span><span class="star" onclick="rate(3)">★</span><span class="star" onclick="rate(4)">★</span><span class="star" onclick="rate(5)">★</span>
+          </div>
+          <div class="rate-label" id="rate-label">Oceń tę książkę</div>
+        </div>
+        <div class="screen-pad">
+          <button class="btn-p" onclick="goRec()">Co czytam dalej? ✦</button>
+          <button class="btn-g">Wróć do biblioteki</button>
+        </div>
+      </div>
+      <div class="screen" id="s2">
+        <div class="rec-header">
+          <div class="rec-eyebrow">AI Reading Companion</div>
+          <div class="rec-title">Co czytasz dalej?</div>
+          <div class="rec-sub" id="rec-sub"></div>
+        </div>
+        <div class="rec-list" id="rec-list"></div>
+        <div class="rec-footer" id="rec-footer" style="display:none">
+          <button class="btn-s" onclick="next()">↻ Zaproponuj inne</button>
+        </div>
+      </div>
+      <div class="screen" id="s3">
+        <div class="detail-cover">
+          <div class="detail-cover-bg" id="d-bg"></div>
+          <div class="detail-cover-info">
+            <div class="detail-title" id="d-title"></div>
+            <div class="detail-author" id="d-author"></div>
+          </div>
+        </div>
+        <div class="detail-body">
+          <button class="back-btn" onclick="show('s2')">← Wróć</button>
+          <div class="detail-reason-box">
+            <div class="detail-reason-label">Dlaczego ta książka?</div>
+            <div class="detail-reason-text" id="d-reason"></div>
+          </div>
+          <div class="detail-desc" id="d-desc"></div>
+          <div class="detail-tags" id="d-tags"></div>
+          <button class="btn-p" style="font-size:12px;padding:10px">Zacznij czytać →</button>
+        </div>
+      </div>
+    </div>
+    <div class="proto-guide">
+      <div class="guide-title">Jak testować</div>
+      <div class="guide-step"><div class="guide-num">1</div><div class="guide-text">Oceń książkę gwiazdkami</div></div>
+      <div class="guide-step"><div class="guide-num">2</div><div class="guide-text">Kliknij "Co czytam dalej?"</div></div>
+      <div class="guide-step"><div class="guide-num">3</div><div class="guide-text">Kliknij kartę po szczegóły</div></div>
+      <div class="guide-step"><div class="guide-num">4</div><div class="guide-text">"Zaproponuj inne" = nowy zestaw</div></div>
+      <div class="guide-note">1–2★ dają inne rekomendacje niż 4–5★ — logika dopasowana do satysfakcji czytelnika</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">User stories (wybrane)</div>
+  <div class="story-list">
+    <div class="story">
+      <div class="story-header" onclick="tog('st1')">
+        <span class="story-id">US-01</span>
+        <span class="story-title">Rekomendacje po skończeniu książki</span>
+        <span class="story-prio must">Must have</span>
+      </div>
+      <div class="story-body" id="st1-b">
+        <div class="story-field"><div class="story-field-label">User story</div><div class="story-field-val">Jako aktywna czytelniczka, chcę zobaczyć rekomendacje zaraz po skończeniu książki, żeby nie tracić czasu na szukanie kolejnej.</div></div>
+        <div class="story-field"><div class="story-field-label">Kryteria akceptacji</div><ul class="ac-list"><li>Ekran pojawia się automatycznie przy 100% postępu</li><li>3 rekomendacje z okładką, tytułem i uzasadnieniem</li><li>Uzasadnienie odnosi się do przeczytanej książki</li><li>Czas ładowania ≤ 2 sekundy</li></ul></div>
+      </div>
+    </div>
+    <div class="story">
+      <div class="story-header" onclick="tog('st2')">
+        <span class="story-id">US-02</span>
+        <span class="story-title">Onboarding gustów przy rejestracji</span>
+        <span class="story-prio must">Must have</span>
+      </div>
+      <div class="story-body" id="st2-b">
+        <div class="story-field"><div class="story-field-label">User story</div><div class="story-field-val">Jako nowy użytkownik, chcę szybko określić preferencje, żeby od razu dostać trafne propozycje.</div></div>
+        <div class="story-field"><div class="story-field-label">Kryteria akceptacji</div><ul class="ac-list"><li>Maksymalnie 5 kroków, ukończenie w under 2 min</li><li>Po ukończeniu min. 6 spersonalizowanych tytułów</li><li>Quiz można pominąć — fallback na bestsellery</li></ul></div>
+      </div>
+    </div>
+    <div class="story">
+      <div class="story-header" onclick="tog('st3')">
+        <span class="story-id">US-03</span>
+        <span class="story-title">Push reaktywacyjny dla nieaktywnych</span>
+        <span class="story-prio should">Should have</span>
+      </div>
+      <div class="story-body" id="st3-b">
+        <div class="story-field"><div class="story-field-label">User story</div><div class="story-field-val">Jako nieaktywna użytkowniczka, chcę dostać powiadomienie z konkretną propozycją, żeby mieć powód żeby wrócić.</div></div>
+        <div class="story-field"><div class="story-field-label">Kryteria akceptacji</div><ul class="ac-list"><li>Push po 14 dniach braku aktywności</li><li>Konkretny tytuł dopasowany do profilu, nie bestseller</li><li>Kliknięcie otwiera stronę tytułu, nie home</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Metryki sukcesu</div>
+  <table class="kpi-table">
+    <thead><tr><th>Metryka</th><th>Cel po 90 dniach</th><th>Obszar</th></tr></thead>
+    <tbody>
+      <tr><td>Books started per user / miesiąc</td><td>+15% MoM</td><td><span class="kbadge kb-r">Retencja</span></td></tr>
+      <tr><td>Onboarding completion rate</td><td>≥ 65%</td><td><span class="kbadge kb-e">Engagement</span></td></tr>
+      <tr><td>Click-through sekcji "Dla Ciebie"</td><td>≥ 18%</td><td><span class="kbadge kb-e">Engagement</span></td></tr>
+      <tr><td>Churn rate 30-dniowy</td><td>-10% vs baseline</td><td><span class="kbadge kb-r">Retencja</span></td></tr>
+      <tr><td>Push reaktywacyjny CTR</td><td>≥ 12%</td><td><span class="kbadge kb-v">Przychód</span></td></tr>
+    </tbody>
+  </table>
+
+  <a href="index.html" class="back-to-portfolio"><i class="ti ti-arrow-left" style="font-size:13px" aria-hidden="true"></i> Wróć do portfolio</a>
+</div>
+
+<script>
+let rating=0,variant=0;
+const D={
+  high:[[
+    {t:"Idiota",a:"F. Dostojewski",r:"Bo jeśli 'Zbrodnia i kara' Cię pochłonęła, Idiota to kolejny szczyt Dostojewskiego.",d:"Książę Myszkin konfrontuje się z brutalnym światem rosyjskiej socjety. Pytanie o dobro i szaleństwo.",tags:["Klasyka","Psychologia","Rosja"],c:"#5a2a2a"},
+    {t:"Mistrz i Małgorzata",a:"M. Bułhakow",r:"Podobnie jak Dostojewski — pytania o zło i moralność, ale z czarnym humorem.",d:"Diabeł przybywa do Moskwy. Satyra i filozofia splecione w arcydzieło.",tags:["Klasyka","Satyra","Magiczny realizm"],c:"#2a2a5a"},
+    {t:"Proces",a:"F. Kafka",r:"Po Dostojewskim naturalny krok to Kafka — to samo poczucie winy.",d:"Józef K. aresztowany bez powodu. Absurd jako metafora egzystencji.",tags:["Klasyka","Absurd","Psychologia"],c:"#2a3a2a"}
+  ],[
+    {t:"Bracia Karamazow",a:"F. Dostojewski",r:"Szczytowe dzieło Dostojewskiego — głębsze i bardziej filozoficzne.",d:"Trzy bracia i wielkie pytania o Boga i moralność. Powieść totalna.",tags:["Klasyka","Filozofia","Dramat"],c:"#4a2a1a"},
+    {t:"Imię róży",a:"U. Eco",r:"Bo lubisz kiedy literatura stawia trudne pytania — przez pryzmat kryminału.",d:"Mnich detektyw w opactwie pełnym tajemnic. Filozofia i suspens.",tags:["Kryminał","Historia","Filozofia"],c:"#3a2a4a"},
+    {t:"Duma i uprzedzenie",a:"J. Austen",r:"Kontrast do mrocznego Dostojewskiego — błyskotliwa obserwacja społeczna.",d:"Elizabeth Bennet i Mr. Darcy. Ponadczasowa historia miłości i klasy.",tags:["Klasyka","Romans","Anglia"],c:"#2a3a4a"}
+  ]],
+  low:[[
+    {t:"Stoner",a:"J. Williams",r:"Po ciężkim Dostojewskim — głęboki, ale łagodniejszy.",d:"Życie profesora literatury. Cicha opowieść o tym co zostaje.",tags:["Współczesna","Obyczajowa","Refleksja"],c:"#2a3a4a"},
+    {t:"Mały Książę",a:"A. de Saint-Exupéry",r:"Czasem po trudnej książce potrzeba czegoś krótkiego i mądrego.",d:"Klasyczna przypowieść o przyjaźni. Czyta się w godzinę.",tags:["Klasyka","Baśń","Filozofia"],c:"#3a4a2a"},
+    {t:"Shōgun",a:"J. Clavell",r:"Po rosyjskim klimacie zmień szerokość — japońska epika wciąga.",d:"Angielski marynarz w feudalnej Japonii. Przygoda pełna honoru.",tags:["Historyczna","Przygoda","Epicka"],c:"#2a2a3a"}
+  ],[
+    {t:"Sklepiki cynamonowe",a:"B. Schulz",r:"Polska proza też potrafi być głęboka — zupełnie inny świat.",d:"Oniryczna proza poetycka o dzieciństwie i Drohobyczu.",tags:["Polska","Proza poetycka","Modernizm"],c:"#4a3a1a"},
+    {t:"Bardzo głośno, niesamowicie blisko",a:"J. S. Foer",r:"Emocje z przygodą — bez filozoficznych ciężarów.",d:"9-letni Oskar szuka sensu po śmierci ojca. Przejmująca.",tags:["Współczesna","Wzruszająca","NYC"],c:"#1a3a2a"},
+    {t:"Hitchhiker's Guide",a:"D. Adams",r:"Po Dostojewskim zasługujesz na absurdalny humor.",d:"Ziemia zniszczona. Arthur Dent wyrusza w kosmos z ręcznikiem.",tags:["Humor","Sci-Fi","Klasyka"],c:"#1a2a4a"}
+  ]]
+};
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function rate(n){rating=n;document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('lit',i<n));const l=['','Słaba','Przeciętna','Dobra','Bardzo dobra','Wybitna!'];document.getElementById('rate-label').textContent=l[n]+' — dziękujemy'}
+function goRec(){variant=0;show('s2');load();setTimeout(render,1300)}
+function load(){document.getElementById('rec-sub').textContent='Analizuję Twój profil…';document.getElementById('rec-footer').style.display='none';document.getElementById('rec-list').innerHTML='<div class="loading-card"><div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div><div class="loading-text">Szukam książek…</div></div>'}
+function books(){const s=rating>=4?D.high:D.low;return s[variant%s.length]}
+function render(){const b=books();const subs=['Na podstawie Twojego profilu','Inny kąt — może coś z tego?','Kolejny zestaw dla Ciebie'];document.getElementById('rec-sub').textContent=subs[variant%subs.length];document.getElementById('rec-list').innerHTML=b.map((x,i)=>`<div class="rec-card" onclick="detail(${i})" style="animation-delay:${i*0.08}s"><div class="rec-mini-cover" style="background:${x.c}">${x.t}</div><div class="rec-info"><div class="rec-book-title">${x.t}</div><div class="rec-book-author">${x.a}</div><div class="rec-reason">${x.r}</div></div><div class="rec-badge">${x.tags[0]}</div></div>`).join('');document.getElementById('rec-footer').style.display='block'}
+function next(){variant++;load();setTimeout(render,900)}
+function detail(i){const x=books()[i];document.getElementById('d-title').textContent=x.t;document.getElementById('d-author').textContent=x.a;document.getElementById('d-reason').textContent=x.r;document.getElementById('d-desc').textContent=x.d;document.getElementById('d-bg').style.background=`linear-gradient(135deg,${x.c},#0d0d0d)`;document.getElementById('d-tags').innerHTML=x.tags.map(t=>`<span class="detail-tag">${t}</span>`).join('');show('s3')}
+function tog(id){document.getElementById(id+'-b').classList.toggle('open')}
+</script>
+</body>
+</html>

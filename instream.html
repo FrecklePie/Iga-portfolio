@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cold Email Client Portal · Iga Dróżdż</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--cream:#faf8f3;--warm:#f0ebe0;--sand:#e8e0d0;--bark:#8c6d4f;--bark-light:#b8926a;--ink:#2a2218;--ink-mid:#5a4e3e;--ink-soft:#8a7d6e;--sage:#7a9e8a;--accent:#c8632a}
+    body{background:var(--cream);font-family:'Outfit',sans-serif;color:var(--ink)}
+    .page{max-width:680px;margin:0 auto;padding:0 24px 5rem}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0;border-bottom:1px solid var(--sand);margin-bottom:2.5rem}
+    .nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-soft);text-decoration:none;transition:color 0.15s}
+    .nav-back:hover{color:var(--bark)}
+    .nav-logo{font-family:'Lora',serif;font-size:15px;color:var(--bark);font-style:italic}
+    .project-eyebrow{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
+    .project-eyebrow::before{content:'';width:20px;height:1px;background:var(--bark-light)}
+    h1{font-family:'Lora',serif;font-size:36px;font-weight:400;line-height:1.2;margin-bottom:0.75rem}
+    .project-subtitle{font-size:15px;color:var(--ink-soft);line-height:1.7;max-width:520px;margin-bottom:1.5rem}
+    .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem}
+    .meta-tag{font-size:11px;padding:4px 12px;border-radius:20px;background:var(--warm);color:var(--ink-mid);border:1px solid var(--sand)}
+    .meta-tag.accent{background:#fdf0e8;color:var(--accent);border-color:#f0c8a8}
+    .divider{border:none;border-top:1px solid var(--sand);margin:2rem 0}
+    .section-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--sand)}
+    .highlight-box{background:var(--warm);border-radius:12px;padding:16px;border:1px solid var(--sand);margin-bottom:1.5rem}
+    .highlight-box p{font-size:14px;color:var(--ink-mid);line-height:1.7}
+    .highlight-box strong{color:var(--ink);font-weight:500}
+    .nda-note{background:#fdf0e8;border:1px solid #f0c8a8;border-radius:12px;padding:14px;margin-bottom:2rem;display:flex;gap:10px;align-items:flex-start}
+    .nda-note p{font-size:13px;color:#7a4010;line-height:1.6}
+
+    /* DASHBOARD EMBED */
+    .dashboard{background:#f0f4f8;border-radius:16px;overflow:hidden;border:1px solid #dde3ea;margin-bottom:2rem}
+    .dash-topbar{background:#fff;border-bottom:1px solid #e8ecf0;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+    .dash-logo{font-size:12px;font-weight:500;color:#5a6a7a;letter-spacing:0.05em;text-transform:uppercase}
+    .dash-client{display:flex;align-items:center;gap:8px;background:#f0f4f8;border-radius:8px;padding:5px 12px;border:1px solid #e0e6ec}
+    .dash-avatar{width:24px;height:24px;border-radius:50%;background:#dbeafe;color:#2563eb;font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center}
+    .dash-client-name{font-size:12px;font-weight:500;color:#2a3a4a}
+    .dash-pill{font-size:10px;padding:2px 8px;border-radius:20px;background:#dbeafe;color:#2563eb}
+
+    .dash-tabs{display:flex;background:#fff;border-bottom:1px solid #e8ecf0;overflow-x:auto}
+    .dash-tab{padding:8px 14px;font-size:12px;color:#8a9aaa;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;font-family:'Outfit',sans-serif;transition:all 0.12s}
+    .dash-tab.active{color:#2a3a4a;border-bottom-color:#2a3a4a;font-weight:500}
+
+    .dash-panel{display:none;padding:16px 20px}
+    .dash-panel.active{display:block}
+
+    .dash-section-title{font-size:13px;font-weight:500;margin-bottom:10px;color:#2a3a4a}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .form-group label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:#8a9aaa;font-weight:500;margin-bottom:4px}
+    .form-group input,.form-group select{width:100%;font-size:12px;padding:7px 9px;border:1px solid #e0e6ec;border-radius:7px;background:#fff;color:#2a3a4a;font-family:'Outfit',sans-serif}
+    .tag-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+    .dtag{padding:4px 10px;border-radius:20px;border:1px solid #e0e6ec;font-size:11px;cursor:pointer;background:#fff;color:#8a9aaa;transition:all 0.1s}
+    .dtag.on{background:#dbeafe;border-color:#93c5fd;color:#2563eb;font-weight:500}
+
+    .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+    .metric{background:#fff;border-radius:8px;padding:10px;border:1px solid #e8ecf0}
+    .metric-label{font-size:10px;color:#8a9aaa;margin-bottom:3px}
+    .metric-val{font-size:19px;font-weight:500;color:#2a3a4a}
+    .metric-val.g{color:#16a34a}.metric-val.b{color:#2563eb}.metric-val.a{color:#d97706}
+
+    .seq-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+    .seq-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #e8ecf0;border-radius:10px;background:#fff}
+    .seq-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+    .seq-dot.done{background:#dcfce7;color:#16a34a}.seq-dot.active{background:#dbeafe;color:#2563eb}.seq-dot.pending{background:#f0f4f8;color:#8a9aaa}
+    .seq-info{flex:1}.seq-name{font-size:12px;font-weight:500;color:#2a3a4a;margin-bottom:1px}.seq-meta{font-size:10px;color:#8a9aaa}
+    .seq-stats{display:flex;gap:12px}.seq-stat{font-size:10px;color:#8a9aaa}.seq-stat span{font-weight:500;color:#2a3a4a}
+    .spill{font-size:10px;padding:2px 8px;border-radius:20px}
+    .spill.done{background:#dcfce7;color:#16a34a}.spill.active{background:#dbeafe;color:#2563eb}.spill.pending{background:#f0f4f8;color:#8a9aaa}
+
+    .strat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+    .strat-card{background:#fff;border-radius:10px;padding:12px;border:1px solid #e8ecf0}
+    .strat-card-title{font-size:11px;font-weight:500;color:#2a3a4a;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .strat-card-body{font-size:11px;color:#8a9aaa;line-height:1.6}
+
+    .tl{display:flex;flex-direction:column;gap:0}
+    .tl-item{display:flex;gap:10px;padding-bottom:14px}
+    .tl-item:last-child{padding-bottom:0}
+    .tl-left{display:flex;flex-direction:column;align-items:center}
+    .tl-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+    .tl-dot.done{background:#dcfce7;color:#16a34a}.tl-dot.now{background:#dbeafe;color:#2563eb}.tl-dot.fut{background:#f0f4f8;color:#8a9aaa}
+    .tl-line{flex:1;width:1px;background:#e8ecf0;min-height:12px;margin-top:3px}
+    .tl-content{flex:1;padding-top:2px}
+    .tl-title{font-size:12px;font-weight:500;color:#2a3a4a;margin-bottom:1px}
+    .tl-desc{font-size:11px;color:#8a9aaa}.tl-date{font-size:10px;color:#aab4be;margin-top:2px}
+
+    .ai-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px;margin-bottom:14px;display:flex;gap:8px}
+    .ai-box-body{font-size:12px;color:#2563eb;line-height:1.6}
+    .ai-box-body strong{font-weight:500;display:block;margin-bottom:2px}
+
+    .target-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:14px}
+    .target-table th{font-size:10px;text-transform:uppercase;letter-spacing:0.04em;color:#8a9aaa;padding:6px 8px;text-align:left;border-bottom:1px solid #e8ecf0;font-weight:500}
+    .target-table td{padding:7px 8px;border-bottom:1px solid #e8ecf0;color:#2a3a4a}
+    .target-table tr:last-child td{border-bottom:none}
+    .chk{color:#16a34a}.crs{color:#dc2626}
+
+    .back-to-portfolio{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--bark);text-decoration:none;padding:8px 16px;border:1px solid var(--sand);border-radius:20px;transition:background 0.15s;margin-top:1rem}
+    .back-to-portfolio:hover{background:var(--warm)}
+    @media(max-width:520px){.form-grid,.strat-grid,.metrics-row{grid-template-columns:1fr 1fr}.metrics-row{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav class="nav">
+    <a class="nav-back" href="index.html"><i class="ti ti-arrow-left" style="font-size:14px" aria-hidden="true"></i> Portfolio</a>
+    <span class="nav-logo">Iga Dróżdż</span>
+  </nav>
+
+  <div class="project-eyebrow">Operations & Product · Internal Tool</div>
+  <h1>Cold Email Client Portal</h1>
+  <p class="project-subtitle">Zaprojektowałam i zbudowałam interaktywny portal dla klientów agencji cold email — od onboardingu przez strategię kampanii po dashboard z metrykami i harmonogramem.</p>
+  <div class="meta-row">
+    <span class="meta-tag accent">Process Design</span>
+    <span class="meta-tag">AI-assisted</span>
+    <span class="meta-tag">Client UX</span>
+    <span class="meta-tag">Operations</span>
+    <span class="meta-tag">Dashboard</span>
+  </div>
+
+  <div class="nda-note">
+    <i class="ti ti-lock" style="font-size:16px;color:#c86020;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>
+    <p><strong style="color:#7a4010">Kontekst NDA:</strong> Projekt oparty na realnym procesie operacyjnym z agencji B2B cold email. Dane klientów zanonimizowane, nazwa firmy zmieniona. Prototyp demonstruje sposób myślenia o procesie i narzędziu — nie dane produkcyjne.</p>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Problem:</strong> Onboarding nowego klienta odbywał się przez maile, PDF-y i spotkania — dane były niekompletne, dużo czasu szło na dopytywanie. Klienci nie widzieli postępu kampanii między raportami miesięcznymi.</p>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Interaktywny prototyp dashboardu</div>
+
+  <div class="dashboard">
+    <div class="dash-topbar">
+      <span class="dash-logo">Campaign Portal</span>
+      <div class="dash-client">
+        <div class="dash-avatar">MQ</div>
+        <span class="dash-client-name">ModQ Solutions</span>
+        <span class="dash-pill">Miesiąc przygotowawczy</span>
+      </div>
+    </div>
+    <div class="dash-tabs">
+      <button class="dash-tab active" onclick="dTab('onboarding',this)">1. Dane firmy</button>
+      <button class="dash-tab" onclick="dTab('produkt',this)">2. Produkt</button>
+      <button class="dash-tab" onclick="dTab('target',this)">3. Target</button>
+      <button class="dash-tab" onclick="dTab('strategia',this)">4. Strategia</button>
+      <button class="dash-tab" onclick="dTab('kampania',this)">5. Kampania</button>
+    </div>
+
+    <!-- Panel 1 -->
+    <div class="dash-panel active" id="dp-onboarding">
+      <div class="dash-section-title">Dane podstawowe</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Nazwa firmy</label><input type="text" value="ModQ Solutions S.A."></div>
+        <div class="form-group"><label>Strona www</label><input type="text" value="https://modqs.com/"></div>
+        <div class="form-group"><label>Języki komunikacji</label><input type="text" value="PL, DE, EN"></div>
+        <div class="form-group"><label>Baza do wykluczeń</label><select><option>Tak</option><option>Nie</option></select></div>
+      </div>
+      <div class="dash-section-title" style="margin-bottom:8px">Regiony kampanii</div>
+      <div class="tag-wrap">
+        <span class="dtag on">PL</span><span class="dtag on">DE</span><span class="dtag on">AT</span><span class="dtag on">EN</span><span class="dtag">FR</span><span class="dtag">Benelux</span><span class="dtag">Południe EU</span>
+      </div>
+    </div>
+
+    <!-- Panel 2 -->
+    <div class="dash-panel" id="dp-produkt">
+      <div class="ai-box">
+        <i class="ti ti-sparkles" style="font-size:16px;color:#2563eb;flex-shrink:0" aria-hidden="true"></i>
+        <div class="ai-box-body"><strong>Podsumowanie AI</strong>ModQ oferuje kontenery magazynowe i zbiorniki na fekalia. Przewagi: brak pozwoleń, mobilność, szybkie terminy. Certyfikaty ISO 9001, EN 1090.</div>
+      </div>
+      <div class="strat-grid">
+        <div class="strat-card"><div class="strat-card-title"><i class="ti ti-package" style="font-size:14px;color:#2563eb" aria-hidden="true"></i> Produkty</div><div class="strat-card-body">Kontenery magazynowe · Zbiorniki fekalia · Moduły socjalne · Kontenery techniczne</div></div>
+        <div class="strat-card"><div class="strat-card-title"><i class="ti ti-award" style="font-size:14px;color:#d97706" aria-hidden="true"></i> Wyróżniki</div><div class="strat-card-body">ISO 9001 · EN 1090 · Produkcja PL · Technologia KTL · Szybkie terminy</div></div>
+        <div class="strat-card"><div class="strat-card-title"><i class="ti ti-target" style="font-size:14px;color:#16a34a" aria-hidden="true"></i> CTA</div><div class="strat-card-body">Spotkanie online · Rozmowa tel. · Kontakt mailowy. Kalendarz online: TAK</div></div>
+        <div class="strat-card"><div class="strat-card-title"><i class="ti ti-users" style="font-size:14px;color:#7c3aed" aria-hidden="true"></i> Klienci ref.</div><div class="strat-card-body">CHS · Moblibox · Hillcont · Inżyniersko · Europbox · Moduboxx</div></div>
+      </div>
+    </div>
+
+    <!-- Panel 3 -->
+    <div class="dash-panel" id="dp-target">
+      <div class="dash-section-title" style="margin-bottom:8px">Branże docelowe</div>
+      <div class="tag-wrap">
+        <span class="dtag on">Budowlana</span><span class="dtag on">Magazynowa</span><span class="dtag on">Kontenerowa</span><span class="dtag on">Eventowa</span><span class="dtag on">Logistyczna</span><span class="dtag on">Zamówienia publiczne</span>
+      </div>
+      <div class="dash-section-title" style="margin-bottom:8px">Wielkość firm</div>
+      <table class="target-table">
+        <thead><tr><th>Segment</th><th>Zatrudnienie</th><th>Obroty</th><th>Target</th></tr></thead>
+        <tbody>
+          <tr><td>JDG</td><td>1 os.</td><td>do 100k</td><td class="crs"><i class="ti ti-x" aria-hidden="true"></i></td></tr>
+          <tr><td>SMB</td><td>11–50</td><td>100k–1mln</td><td class="crs"><i class="ti ti-x" aria-hidden="true"></i></td></tr>
+          <tr><td>Duże</td><td>50–250</td><td>5–15 mln</td><td class="chk"><i class="ti ti-check" aria-hidden="true"></i></td></tr>
+          <tr><td>Enterprise</td><td>251–1000</td><td>30–50 mln</td><td class="chk"><i class="ti ti-check" aria-hidden="true"></i></td></tr>
+          <tr><td>Korpo</td><td>1000+</td><td>50 mln+</td><td class="chk"><i class="ti ti-check" aria-hidden="true"></i></td></tr>
+        </tbody>
+      </table>
+      <div class="dash-section-title" style="margin-bottom:8px">Stanowiska</div>
+      <div class="tag-wrap"><span class="dtag on">CEO / Zarząd</span><span class="dtag on">Właściciel</span><span class="dtag on">Szef zakupów</span><span class="dtag on">Zakupy centralne</span></div>
+    </div>
+
+    <!-- Panel 4 -->
+    <div class="dash-panel" id="dp-strategia">
+      <div class="ai-box">
+        <i class="ti ti-sparkles" style="font-size:16px;color:#2563eb;flex-shrink:0" aria-hidden="true"></i>
+        <div class="ai-box-body"><strong>Rekomendacja AI</strong>3 sekwencje: (1) kontenery magazynowe → budowlana DE/PL, (2) zbiorniki → budowlana PL, (3) moduły socjalne → logistyka. Ton: biznesowy, problem-first. CTA: spotkanie przez kalendarz.</div>
+      </div>
+      <div class="strat-grid">
+        <div class="strat-card"><div class="strat-card-title"><i class="ti ti-message" style="font-size:14px;color:#2563eb" aria-hidden="true"></i> Ton komunikacji</div><div class="strat-card-body">Profesjonalny, konkretny, oparty na problemie klienta. Każdy email zaczyna się od pain point segmentu.</div></div>
+        <div class="strat-card"><div class="strat-card-title"><i class="ti ti-mail-forward" style="font-size:14px;color:#16a34a" aria-hidden="true"></i> Sekwencje</div><div class="strat-card-body">3 sekwencje × 4 wiadomości. Odstępy 3–5 dni. Języki: PL + DE + EN.</div></div>
+      </div>
+    </div>
+
+    <!-- Panel 5 -->
+    <div class="dash-panel" id="dp-kampania">
+      <div class="metrics-row">
+        <div class="metric"><div class="metric-label">Wysłane</div><div class="metric-val b">847</div></div>
+        <div class="metric"><div class="metric-label">Open rate</div><div class="metric-val g">38%</div></div>
+        <div class="metric"><div class="metric-label">Reply rate</div><div class="metric-val g">6,2%</div></div>
+        <div class="metric"><div class="metric-label">Hot leady</div><div class="metric-val a">14</div></div>
+      </div>
+      <div class="seq-list">
+        <div class="seq-item"><div class="seq-dot done"><i class="ti ti-check" style="font-size:12px" aria-hidden="true"></i></div><div class="seq-info"><div class="seq-name">SEQ 1 — Kontenery magazynowe · DE/PL</div><div class="seq-meta">4 maile · CEO/Zarząd · Duże+Enterprise</div></div><div class="seq-stats"><div class="seq-stat">Open <span>41%</span></div><div class="seq-stat">Reply <span>7,1%</span></div></div><span class="spill done">Zakończona</span></div>
+        <div class="seq-item"><div class="seq-dot active"><i class="ti ti-send" style="font-size:12px" aria-hidden="true"></i></div><div class="seq-info"><div class="seq-name">SEQ 2 — Zbiorniki na fekalia · PL</div><div class="seq-meta">4 maile · Szef zakupów · Duże+Korpo</div></div><div class="seq-stats"><div class="seq-stat">Open <span>35%</span></div><div class="seq-stat">Reply <span>5,4%</span></div></div><span class="spill active">W toku</span></div>
+        <div class="seq-item"><div class="seq-dot pending">3</div><div class="seq-info"><div class="seq-name">SEQ 3 — Moduły socjalne · Logistyka</div><div class="seq-meta">4 maile · Dyrektor operacyjny</div></div><div class="seq-stats"><div class="seq-stat">Open <span>—</span></div><div class="seq-stat">Reply <span>—</span></div></div><span class="spill pending">Planowana</span></div>
+      </div>
+      <div class="dash-section-title" style="margin-bottom:10px">Harmonogram</div>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-left"><div class="tl-dot done"><i class="ti ti-check" style="font-size:10px" aria-hidden="true"></i></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-title">Spotkanie startowe</div><div class="tl-desc">Omówienie umowy i briefu</div><div class="tl-date">12 maja 2026</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-dot done"><i class="ti ti-check" style="font-size:10px" aria-hidden="true"></i></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-title">Spotkanie strategiczne</div><div class="tl-desc">Sekwencje, persony, ton of voice</div><div class="tl-date">15 maja 2026</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-dot now"><i class="ti ti-send" style="font-size:10px" aria-hidden="true"></i></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-title">Launch SEQ 1 + przygotowanie SEQ 2</div><div class="tl-desc">Kampania aktywna</div><div class="tl-date">26 maja – teraz</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-dot fut"><i class="ti ti-file-text" style="font-size:10px" aria-hidden="true"></i></div></div><div class="tl-content"><div class="tl-title">Raport miesięczny</div><div class="tl-desc">Podsumowanie + optymalizacja SEQ 3</div><div class="tl-date">12 czerwca 2026</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-to-portfolio"><i class="ti ti-arrow-left" style="font-size:13px" aria-hidden="true"></i> Wróć do portfolio</a>
+</div>
+<script>
+function dTab(id,btn){
+  document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dash-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('dp-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
