@@ -31,11 +31,13 @@
     .project-card:nth-child(1){animation-delay:0.1s}
     .project-card:nth-child(2){animation-delay:0.2s}
     .project-card:nth-child(3){animation-delay:0.3s}
+    .project-card:nth-child(4){animation-delay:0.4s}
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
     .project-thumb{height:140px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
     .thumb-legimi{background:linear-gradient(135deg,#1a1208,#2a1a0a)}
     .thumb-instream{background:linear-gradient(135deg,#0e1a2a,#1a2e3a)}
     .thumb-eloque{background:linear-gradient(135deg,#1a2a1a,#2a3a28)}
+    .thumb-roasthouse{background:linear-gradient(135deg,#2C1A0E,#5C3D22)}
     .thumb-label{font-family:'Lora',serif;font-size:22px;color:rgba(255,255,255,0.12);font-style:italic;user-select:none}
     .thumb-badge{position:absolute;top:12px;left:14px;font-size:10px;padding:3px 10px;border-radius:20px;font-weight:500;letter-spacing:0.05em}
     .badge-gold{background:#c8922a22;color:#c8922a;border:1px solid #c8922a44}
@@ -100,7 +102,8 @@
         <div class="project-meta"><span class="project-type">Product Design</span><span class="project-status">Interaktywny prototyp</span></div>
         <div class="project-title">AI Reading Companion — Legimi</div>
         <div class="project-desc">Zaprojektowałam funkcję personalizowanych rekomendacji dla platformy Legimi — od discovery i user research, przez PRD z user stories, po clickable prototyp UI.</div>
-        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div><div class="project-highlights"><span class="highlight">User research</span><span class="highlight">User stories + AC</span><span class="highlight">Clickable prototype</span><span class="highlight">Metryki sukcesu</span></div>
+        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div>
+        <div class="project-highlights"><span class="highlight">User research</span><span class="highlight">User stories + AC</span><span class="highlight">Clickable prototype</span><span class="highlight">Metryki sukcesu</span></div>
       </div>
       <div class="project-cta"><span class="project-cta-text">Zobacz case study i prototyp →</span></div>
     </a>
@@ -115,7 +118,8 @@
         <div class="project-meta"><span class="project-type">Operations & Product</span><span class="project-status">Działający prototyp</span></div>
         <div class="project-title">Cold Email Client Portal</div>
         <div class="project-desc">Zaprojektowałam i zbudowałam interaktywny portal dla klientów agencji cold email — od onboardingu przez strategię kampanii po dashboard z metrykami i harmonogramem.</div>
-        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div><div class="project-highlights"><span class="highlight">Process mapping</span><span class="highlight">AI strategy</span><span class="highlight">Client UX</span><span class="highlight">5-step wizard</span></div>
+        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div>
+        <div class="project-highlights"><span class="highlight">Process mapping</span><span class="highlight">AI strategy</span><span class="highlight">Client UX</span><span class="highlight">5-step wizard</span></div>
       </div>
       <div class="project-cta"><span class="project-cta-text">Zobacz dashboard →</span></div>
     </a>
@@ -130,9 +134,26 @@
         <div class="project-meta"><span class="project-type">Founder · Product</span><span class="project-status">MVP live</span></div>
         <div class="project-title">Eloque — AI Speech Trainer</div>
         <div class="project-desc">Buduję własną aplikację do trenowania komunikacji mówionej z feedbackiem AI. Od pomysłu po działający MVP — sama definiuję produkt, projektuję UX i buduję.</div>
-        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div><div class="project-highlights"><span class="highlight">0→1 product</span><span class="highlight">B2C + B2B</span><span class="highlight">Next.js PWA</span><span class="highlight">Claude API</span></div>
+        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div>
+        <div class="project-highlights"><span class="highlight">0→1 product</span><span class="highlight">B2C + B2B</span><span class="highlight">Next.js PWA</span><span class="highlight">Claude API</span></div>
       </div>
       <div class="project-cta"><span class="project-cta-text">Zobacz produkt →</span></div>
+    </a>
+    <a class="project-card" href="roasthouse.html">
+      <div class="project-thumb thumb-roasthouse">
+        <span class="thumb-label">RoastHouse</span>
+        <div class="thumb-badge badge-gold">B2B Client Panel</div>
+        <div class="thumb-arrow"><i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="thumb-chips"><span class="chip">Dashboard</span><span class="chip">UX</span></div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta"><span class="project-type">B2B Product Design</span><span class="project-status">Działający prototyp</span></div>
+        <div class="project-title">B2B Client Panel — RoastHouse</div>
+        <div class="project-desc">Zaprojektowałam interaktywny panel klienta dla palarni kawy specialty — historia zamówień, program lojalnościowy, quiz doboru blendów i materiały dla lokali. Trzy rynki: PL, CZ, SK.</div>
+        <div style="font-size:11px;color:var(--bark);margin-bottom:10px;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-right" style="font-size:12px"></i> Otwórz case study</div>
+        <div class="project-highlights"><span class="highlight">Client UX</span><span class="highlight">B2B portal</span><span class="highlight">3 rynki</span><span class="highlight">Loyalty system</span></div>
+      </div>
+      <div class="project-cta"><span class="project-cta-text">Zobacz panel →</span></div>
     </a>
   </div>
   <hr class="divider">
